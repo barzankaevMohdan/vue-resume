@@ -1,62 +1,52 @@
 <template>
   <div class="container column">
-    <form class="card card-w30"
-      @submit="submitHandler"
+    <resume-form
+      @add-block="addBlock"
     >
-      <div class="form-control">
-        <label for="type">Тип блока</label>
-        <select id="type">
-          <option value="title">Заголовок</option>
-          <option value="subtitle">Подзаголовок</option>
-          <option value="avatar">Аватар</option>
-          <option value="text">Текст</option>
-        </select>
-      </div>
-
-      <div class="form-control">
-        <label for="value">Значение</label>
-        <textarea id="value" rows="3"></textarea>
-      </div>
-
-      <button class="btn primary">Добавить</button>
-    </form>
-    <div class="card card-w70">
-      <app-resume></app-resume>
-      <app-avatar></app-avatar>
-      <app-experience></app-experience>
-      <app-descr></app-descr>
-      <app-title></app-title>
-    </div>
+    </resume-form>
+    <resume-view
+    :blocks="this.blocks"
+    >
+    </resume-view>
   </div>
   <div class="container">
-    <p>
-      <button class="btn primary">Загрузить комментарии</button>
-    </p>
-    <div class="card">
-      <h2>Комментарии</h2>
-      <ul class="list">
-        <li class="list-item">
-          <div>
-            <p><strong>test@microsoft.com</strong></p>
-            <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, reiciendis.</small>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="loader"></div>
+    <resume-comments
+      @load="commetnsLoad"
+      v-if="!loading"
+      :comments="this.comments"
+    >
+    </resume-comments>
+    <app-loader v-if="loading"></app-loader>
   </div>
 </template>
 
 <script>
+import ResumeForm from './components/ResumeForm'
+import ResumeComments from './components/ResumeComments'
+import ResumeView from './components/ResumeView'
 
-import AppResume from './components/AppResume'
-import AppAvatar from './components/AppAvatar'
-import AppExperience from './components/AppExperience'
-import AppDescr from './components/AppDescr'
-import AppTitle from './components/AppTitle'
+import AppLoader from './components/AppLoader'
 
 export default {
-  components: { AppResume, AppAvatar, AppExperience, AppDescr, AppTitle }
+  data() {
+    return {
+      blocks: [],
+      comments: [],
+      loading: false
+    }
+  },
+  methods: {
+    addBlock(block) {
+      this.blocks.push(block)
+    },
+    async commetnsLoad() {
+      this.loading = true
+      const response = await fetch('https://jsonplaceholder.typicode.com/comments?_limit=42')
+      this.comments = await response.json()
+      this.loading = false
+    }
+  },
+  components: { ResumeForm, ResumeComments, ResumeView, AppLoader }
 }
 </script>
 

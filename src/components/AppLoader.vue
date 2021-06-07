@@ -1,9 +1,9 @@
 <template>
-    <h1>Резюме Nickname</h1>
+    <div class="loader"></div>
 </template>
 
 <script>
 export default {
-    
+
 }
 </script>
