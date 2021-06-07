@@ -5,7 +5,7 @@
         v-for="block in blocks"
         :key="block.id"
         :is="'resume-' + block.option"
-        :block="block"
+        v-bind="{text: block.text}"
       ></component>
     </template>
     <h3 v-else>Добавьте первый блок, чтобы увидеть результат</h3>

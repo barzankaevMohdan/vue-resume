@@ -1,9 +1,9 @@
 <template>
-    <h1>{{ block.text }}</h1>
+    <h1>{{ $attrs.text }}</h1>
 </template>
 
 <script>
 export default {
-    props: ['block']
+    
 }
 </script>

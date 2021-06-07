@@ -1,12 +1,12 @@
 <template>
     <div class="avatar">
-        <img :src="block.text">
+        <img :src="$attrs.text">
       </div>
 </template>
 
 <script>
 export default {
-  props: ['block']
+  
 }
 </script>
 
